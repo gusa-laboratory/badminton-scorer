@@ -1,0 +1,7 @@
+# macOS
+.DS_Store
+
+# エディタ・開発用
+.vscode/
+.idea/
+.claude/
