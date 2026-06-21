@@ -1,0 +1,38 @@
+/* バドミントン得点カウンター Service Worker
+   ★アプリを更新したら、下の CACHE のバージョン番号を必ず上げること（v1→v2…）。
+     そうしないと利用者の端末に古い版がキャッシュされたまま残る。 */
+const CACHE = 'badminton-v1';
+
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-512-maskable.png',
+  './apple-touch-icon.png'
+];
+
+// インストール時：アプリ一式をキャッシュ
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())
+  );
+});
+
+// 有効化時：古いバージョンのキャッシュを削除
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+// 取得時：キャッシュ優先（オフライン対応）。無ければネット、失敗時はindex.htmlを返す
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    caches.match(e.request).then((hit) => hit || fetch(e.request).catch(() => caches.match('./index.html')))
+  );
+});
