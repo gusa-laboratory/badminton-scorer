@@ -546,7 +546,7 @@ function render(){
     const badge=$(el); const txt=badge.querySelector('.stxt');
     if(sv.team===side && !S.matchOver){
       badge.classList.add('show');
-      let label = `サーブ <span class="court">${sv.courtJP}コート</span>`;
+      let label = `サーブ <span class="court">${sv.courtJP}</span>`;
       if(cfg.type==='doubles') label += ` ${sv.player}`;
       txt.innerHTML=label;
     } else { badge.classList.remove('show'); }

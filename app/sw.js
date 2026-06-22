@@ -1,7 +1,7 @@
 /* バドミントン得点カウンター Service Worker
    ★アプリを更新したら、下の CACHE のバージョン番号を必ず上げること（v1→v2…）。
      そうしないと利用者の端末に古い版がキャッシュされたまま残る。 */
-const CACHE = 'badminton-v1';
+const CACHE = 'badminton-v2';
 
 const ASSETS = [
   './',
